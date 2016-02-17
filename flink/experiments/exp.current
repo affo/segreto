@@ -1,0 +1,4 @@
+#!/bin/bash
+source utils.sh
+
+play 1 10 5 4 8 3
