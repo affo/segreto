@@ -25,7 +25,7 @@ public class Main {
                 break;
         }
 
-        experiment.main(env);
+        experiment.main(env, "proxy", 9999);
         System.out.println("Running " + experiment.getName());
         env.execute(experiment.getName());
     }

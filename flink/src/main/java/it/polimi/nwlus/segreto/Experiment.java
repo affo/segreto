@@ -6,7 +6,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
  * Created by affo on 10/02/16.
  */
 public interface Experiment {
-    void main(StreamExecutionEnvironment env) throws Exception;
+    void main(StreamExecutionEnvironment env, String ip, int port) throws Exception;
 
     String getName();
 }
