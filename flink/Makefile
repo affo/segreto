@@ -18,6 +18,9 @@ else
 	docker run -it --name $(CNAME) $(TEST_IMG) -c$(MAIN_CLASS) $(OPTS)
 endif
 
+attach_to_out:
+	docker exec -it $(CNAME) ./attach_to_out.sh
+
 clean:
 	docker rm -f $(CNAME); true
 
