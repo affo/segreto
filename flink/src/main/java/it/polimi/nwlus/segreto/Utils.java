@@ -52,6 +52,6 @@ public class Utils {
         String[] values = s.trim().replace(")", "").replace("(", "").split(",");
         int timestamp = Integer.parseInt(values[0]);
         int value = Integer.parseInt(values[1]);
-        return new Tuple2<>(value, timestamp);
+        return new Tuple2<>(timestamp, value);
     }
 }
