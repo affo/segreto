@@ -6,7 +6,6 @@
 #include <string.h>
 
 int main() {
-
     char str[100];
     int listen_fd;
     int comm1_fd, comm2_fd;
@@ -31,8 +30,10 @@ int main() {
     while (1) {
         bzero(str, 100);
         read(comm1_fd, str, 100);
-        printf("Forwarding - %s", str);
-        write(comm2_fd, str, strlen(str) + 1);
+        if (strlen(str) > 0) {
+            printf("Forwarding - %s", str);
+            write(comm2_fd, str, strlen(str));
+        }
     }
 
     return 0;

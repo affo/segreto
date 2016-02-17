@@ -27,7 +27,7 @@ function play {
             last_ts=$arg
         else
             # it is a value
-            tuple="("$last_ts", "$arg")"
+            tuple="("$last_ts","$arg")"
             send $tuple
             echo "Sent - "$tuple
         fi

@@ -4,8 +4,11 @@
 sleep 2
 exec 3<>/dev/tcp/localhost/9999
 
-echo "Sleeping for a minute, so you can run the Flink job..."
-sleep 60
+echo
+echo "Press ENTER when the Flink job is ready"
+echo
+
+read
 
 ./exp
 
