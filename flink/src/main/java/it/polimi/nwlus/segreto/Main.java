@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment
                 .getExecutionEnvironment();
-        env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
+        // env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
         int noExperiment = Integer.parseInt(args[0]);
         Experiment experiment = new Experiment1();

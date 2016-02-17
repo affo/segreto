@@ -37,8 +37,8 @@ public class Experiment1 implements Experiment {
 
 
         input
-                .assignTimestamps(Utils.getTSExtractor())
-                .timeWindowAll(Time.of(3, TimeUnit.MILLISECONDS))
+                // .assignTimestamps(Utils.getTSExtractor())
+                .timeWindowAll(Time.of(3, TimeUnit.SECONDS))
                 .apply(new AllWindowFunction<Tuple2<Integer, Integer>, String, TimeWindow>() {
                     @Override
                     public void apply(
