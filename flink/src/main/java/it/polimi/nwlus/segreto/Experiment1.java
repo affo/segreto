@@ -31,11 +31,7 @@ public class Experiment1 implements Experiment {
         DataStream<Tuple2<Integer, Integer>> input = socketStream.flatMap(new FlatMapFunction<String, Tuple2<Integer, Integer>>() {
             @Override
             public void flatMap(String s, Collector<Tuple2<Integer, Integer>> out) throws Exception {
-              /*(Integer, Integer) */
-                String[] values = s.replace(")", "").replace("(", "").split(", ");
-                int timestamp = Integer.parseInt(values[0]);
-                int value = Integer.parseInt(values[1]);
-                out.collect(new Tuple2<>(value,timestamp));
+                out.collect(Utils.parseTuple(s));
             }
         });
 
@@ -55,6 +51,8 @@ public class Experiment1 implements Experiment {
                 })
                 .print();
     }
+
+
 
     @Override
     public String getName() {
