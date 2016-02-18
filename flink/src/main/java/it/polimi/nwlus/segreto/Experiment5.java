@@ -13,22 +13,23 @@ import org.apache.flink.util.Collector;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Time-based Window Experiment 1
+ * Time-based Window Experiment 5
  * <p/>
  * Input:
- * InStream(Time, Val) = {(10,10),(11,20),(12,30),(13,40),(14,50),(15,60),(16,70), ...}
+ * <p/>
+ * InStream(Time, Val) = {(11,10),(12,20),(13,30),(14,40),(15,50),(16,60), (17,70),(18,80),(19,90),(20,100), ...}
  * <p/>
  * Query:
- * Continuously compute the average value of the tuples
+ * <p/>
+ * Continuously compute the sum value of the tuples
  * in the input stream using a time-based tumbling window of 3 seconds.
- *
- *
+ * <p/>
  */
-public class Experiment1 implements Experiment {
+public class Experiment5 implements Experiment {
+    @Override
     public void main(StreamExecutionEnvironment env, String ip, int port) throws Exception {
 
         DataStreamSource<String> socketStream = env.socketTextStream(ip, port);
-
 
         DataStream<Tuple2<Integer, Integer>> input = socketStream.flatMap(new FlatMapFunction<String, Tuple2<Integer, Integer>>() {
             @Override
@@ -36,7 +37,6 @@ public class Experiment1 implements Experiment {
                 out.collect(Utils.parseTuple(s));
             }
         });
-
 
         input
                 .assignTimestamps(Utils.getTSExtractor())
@@ -54,10 +54,8 @@ public class Experiment1 implements Experiment {
                 .print();
     }
 
-
-
     @Override
     public String getName() {
-        return "Esperimento SEGRETO 1";
+        return "Esperimento SEGRETO 5";
     }
 }
