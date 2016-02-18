@@ -52,6 +52,48 @@ public class Utils {
         };
     }
 
+    public static TimestampExtractor<Tuple2<Integer, Integer>> getTimePassingExtractor() {
+        return new TimestampExtractor<Tuple2<Integer, Integer>>() {
+            int noTupleInvocations = 0;
+            long MAX_DELAY = 2000;
+            long ts = Long.MIN_VALUE;
+            long lastWM;
+
+            @Override
+            public long extractTimestamp(Tuple2<Integer, Integer> element, long currentTimestamp) {
+                ts = element.f0 * 1000;
+                return ts;
+            }
+
+            @Override
+            public long extractWatermark(Tuple2<Integer, Integer> element, long currentTimestamp) {
+                return Long.MIN_VALUE;
+            }
+
+            @Override
+            public long getCurrentWatermark() {
+                if (ts == Long.MIN_VALUE) {
+                    return Long.MIN_VALUE;
+                }
+
+                long wm = ts - MAX_DELAY;
+
+                if (wm > lastWM) {
+                    System.out.println(">>> New Watermark Emitted: " + wm);
+                    lastWM = wm;
+                } else {
+                    noTupleInvocations++;
+                    if (noTupleInvocations % 5 == 0) {
+                        lastWM += MAX_DELAY;
+                        System.out.println(">>> No incoming tuple, new WM: " + lastWM);
+                    }
+                }
+
+                return lastWM;
+            }
+        };
+    }
+
     public static Tuple2<Integer, Integer> parseTuple(String s) {
 
           /*(Integer, Integer) */
