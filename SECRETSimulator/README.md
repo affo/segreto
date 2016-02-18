@@ -1,3 +1,15 @@
+# Notes by Committers
+The project contained in the folder `SECRETSimulator` has been downloaded from http://www.systems.ethz.ch/research/SECRET.  
+Every modification introduced in the code is meant to model a new engine based on the concepts explained
+by the authors in the paper.
+
+No modification will be introduced in the logic of SECRET simulator.
+
+Other modifications will be introduced but only for operative reasons.  
+E.g. `main` method and `readMe` files for GitHub displaying.
+
+
+# README from SECRET Project
 Compile SecretMainExecuter.java
 
 ```
