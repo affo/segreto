@@ -23,13 +23,14 @@ public class Utils {
         return res;
     }
 
-    public static TimestampExtractor<Tuple2<Integer, Integer>> getTSExtractor(){
+    public static TimestampExtractor<Tuple2<Integer, Integer>> getTSExtractor() {
         return new TimestampExtractor<Tuple2<Integer, Integer>>() {
             long ts;
+            long lastWM;
 
             @Override
             public long extractTimestamp(Tuple2<Integer, Integer> element, long currentTimestamp) {
-                ts = element.f0;
+                ts = element.f0 * 1000;
                 return ts;
             }
 
@@ -40,7 +41,13 @@ public class Utils {
 
             @Override
             public long getCurrentWatermark() {
-                return ts - 1;
+                long wm = ts - 1000;
+                if (wm > lastWM) {
+                    System.out.println(">>> New Watermark Emitted: " + wm);
+                    lastWM = wm;
+                }
+
+                return wm;
             }
         };
     }
