@@ -1,6 +1,7 @@
 package it.polimi.nwlus.segreto;
 
 import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.streaming.api.functions.AscendingTimestampExtractor;
 import org.apache.flink.streaming.api.functions.TimestampExtractor;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 
@@ -90,6 +91,15 @@ public class Utils {
                 }
 
                 return lastWM;
+            }
+        };
+    }
+
+    public static TimestampExtractor<Tuple2<Integer, Integer>> getAscendingExtractor() {
+        return new AscendingTimestampExtractor<Tuple2<Integer, Integer>>() {
+            @Override
+            public long extractAscendingTimestamp(Tuple2<Integer, Integer> element, long previousElementTimestamp) {
+                return element.f0 * 1000;
             }
         };
     }

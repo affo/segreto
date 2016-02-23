@@ -13,6 +13,9 @@ public class Main {
         Experiment experiment = new ExperimentMinus1();
 
         switch (noExperiment) {
+            case 0:
+                experiment = new Experiment0();
+                break;
             case 1:
                 experiment = new Experiment1();
                 break;
