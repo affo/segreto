@@ -10,9 +10,12 @@ public class Main {
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
         int noExperiment = Integer.parseInt(args[0]);
-        Experiment experiment = new Experiment1();
+        Experiment experiment = new ExperimentMinus1();
 
         switch (noExperiment) {
+            case 1:
+                experiment = new Experiment1();
+                break;
             case 2:
                 experiment = new Experiment2();
                 break;
