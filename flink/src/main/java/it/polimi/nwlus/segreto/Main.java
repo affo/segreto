@@ -23,7 +23,52 @@ public class Main {
                 experiment = new Experiment2();
                 break;
             case 3:
-                //TODO experiment = new Experiment3();
+                String mod = "stuple";
+
+                if (args.length >= 2) {
+                    mod = args[1];
+                }
+
+                switch (mod) {
+                    case "stime":
+                        experiment = new Experiment3() {
+                            @Override
+                            public String getName() {
+                                return "Esperimento SEGRETO 3 - STIME";
+                            }
+
+                            @Override
+                            public int getBatchSize() {
+                                return Integer.MAX_VALUE;
+                            }
+                        };
+                        break;
+                    case "sbatch":
+                        experiment = new Experiment3() {
+                            @Override
+                            public String getName() {
+                                return "Esperimento SEGRETO 3 - SBATCH";
+                            }
+
+                            @Override
+                            public int getBatchSize() {
+                                return 2;
+                            }
+                        };
+                        break;
+                    default:
+                        experiment = new Experiment3() {
+                            @Override
+                            public String getName() {
+                                return "Esperimento SEGRETO 3 - STUPLE";
+                            }
+
+                            @Override
+                            public int getBatchSize() {
+                                return 1;
+                            }
+                        };
+                }
                 break;
             case 4:
                 experiment = new Experiment4();
