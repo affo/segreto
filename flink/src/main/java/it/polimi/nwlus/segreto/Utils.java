@@ -1,6 +1,11 @@
 package it.polimi.nwlus.segreto;
 
+import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.java.tuple.Tuple;
 import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.streaming.api.TimeCharacteristic;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.AscendingTimestampExtractor;
 import org.apache.flink.streaming.api.functions.TimestampExtractor;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
@@ -24,19 +29,19 @@ public class Utils {
         return res;
     }
 
-    public static TimestampExtractor<Tuple2<Integer, Integer>> getTSExtractor() {
-        return new TimestampExtractor<Tuple2<Integer, Integer>>() {
+    public static <T extends Tuple> TimestampExtractor<T> getTSExtractor() {
+        return new TimestampExtractor<T>() {
             long ts;
             long lastWM;
 
             @Override
-            public long extractTimestamp(Tuple2<Integer, Integer> element, long currentTimestamp) {
-                ts = element.f0 * 1000;
+            public long extractTimestamp(T element, long currentTimestamp) {
+                ts = (int) element.getField(0) * 1000;
                 return ts;
             }
 
             @Override
-            public long extractWatermark(Tuple2<Integer, Integer> element, long currentTimestamp) {
+            public long extractWatermark(T element, long currentTimestamp) {
                 return Long.MIN_VALUE;
             }
 
@@ -84,6 +89,7 @@ public class Utils {
                     lastWM = wm;
                 } else {
                     noTupleInvocations++;
+                    // TODO fix this according to getAutoWatermarkInterval
                     if (noTupleInvocations % 5 == 0) {
                         lastWM += MAX_DELAY;
                         System.out.println(">>> No incoming tuple, new WM: " + lastWM);
@@ -112,5 +118,43 @@ public class Utils {
         int timestamp = Integer.parseInt(values[0]);
         int value = Integer.parseInt(values[1]);
         return new Tuple2<>(timestamp, value);
+    }
+
+    public static <T extends Tuple> DataStream<Tuple2<Integer, T>> toCoral8Stream(
+            final StreamExecutionEnvironment env,
+            final DataStream<T> ds,
+            final int BATCH_SIZE) {
+        if (env.getStreamTimeCharacteristic() != TimeCharacteristic.EventTime) {
+            throw new RuntimeException("Set time to EventTime, please...");
+        }
+
+        return ds
+                .map(new MapFunction<T, Tuple2<Integer, T>>() {
+                    long lastTs = Long.MIN_VALUE;
+                    int bid = 0;
+                    int count = 0;
+
+                    @Override
+                    public Tuple2<Integer, T> map(T record) throws Exception {
+                        // we extract the timestamp manually
+                        int ts = (int) record.getField(0) * 1000;
+
+                        if (count >= BATCH_SIZE || ts > lastTs) {
+                            bid++; // be consistent with seconds, please
+                            count = 1;
+                        } else if (ts == lastTs) {
+                            // ok, we are at the same event time
+                            count++;
+                        } else {
+                            // out of order event
+                            // should never happen
+                            throw new RuntimeException("Out of order event in Coral8 converter");
+                        }
+
+                        lastTs = ts;
+                        return new Tuple2<>(bid, record);
+                    }
+                })
+                .assignTimestamps(Utils.<Tuple2<Integer,T>>getTSExtractor());
     }
 }

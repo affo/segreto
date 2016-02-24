@@ -39,7 +39,7 @@ public class Experiment5 implements Experiment {
         });
 
         input
-                .assignTimestamps(Utils.getTSExtractor())
+                .assignTimestamps(Utils.<Tuple2<Integer, Integer>>getTSExtractor())
                 .timeWindowAll(Time.of(3, TimeUnit.SECONDS))
                 .apply(new AllWindowFunction<Tuple2<Integer, Integer>, String, TimeWindow>() {
                     @Override
