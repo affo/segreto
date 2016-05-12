@@ -2,12 +2,8 @@ import java.io.*;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import engine.*;
 import params.TickParam;
-import engine.Coral8Params;
-import engine.Engine;
-import engine.OracleCEPParams;
-import engine.SBParams;
-import engine.STREAMParams;
 
 import basic.*;
 
@@ -94,6 +90,9 @@ public class SecretMainExecuter {
 		
 		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex1.csv", 10, "StreamBase", 3, 3, 0);
 		System.out.println(result);
+
+		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex1.csv", 10, "Flink", 3, 3, 0);
+		System.out.println(result);
 		
 		// Experiment # 2 
 		System.out.println("\nEXPERIMENT # 2\n");
@@ -110,6 +109,8 @@ public class SecretMainExecuter {
 		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex2.csv", 30, "StreamBase", 5, 1, 0);
 		System.out.println(result);
 
+		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex2.csv", 30, "Flink", 5, 1, 0);
+		System.out.println(result);
 
 		// Experiment # 3 
 		System.out.println("\nEXPERIMENT # 3\n");
@@ -123,7 +124,6 @@ public class SecretMainExecuter {
 		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex3-batch.csv", 3, "Coral8", 4, 1, 0);
 		System.out.println(result);
 
-
 		// Experiment # 4 
 		System.out.println("\nEXPERIMENT # 4\n");
 		
@@ -136,6 +136,9 @@ public class SecretMainExecuter {
 		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex3.csv", 3, "StreamBase", 4, 1, 0);
 		System.out.println(result);
 
+		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex3.csv", 3, "Flink", 4, 1, 0);
+		System.out.println(result);
+
 		// Experiment # 5 
 		System.out.println("\nEXPERIMENT # 5\n");
 		
@@ -146,6 +149,9 @@ public class SecretMainExecuter {
 		System.out.println(result);
 		
 		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex5.csv", 11, "StreamBase", 3, 3, 0);
+		System.out.println(result);
+
+		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex5.csv", 11, "Flink", 3, 3, 0);
 		System.out.println(result);
 		
 		// Experiment # 6 
@@ -164,6 +170,9 @@ public class SecretMainExecuter {
 		System.out.println(result);
 
 		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex6.csv", 3, "StreamBase", 3, 3, 0);
+		System.out.println(result);
+
+		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex6.csv", 3, "Flink", 3, 3, 0);
 		System.out.println(result);
 		
 	}
@@ -360,6 +369,10 @@ public class SecretMainExecuter {
 		else if(engineName.equalsIgnoreCase("OracleCEP"))
 		{
 			return new OracleCEPParams(engineName, tstart, wQuery, ratio);
+		}
+		else if(engineName.equalsIgnoreCase("Flink"))
+		{
+			return new FlinkParams(engineName, tstart, wQuery, ratio);
 		}
 		return null;
 		
