@@ -77,7 +77,7 @@ public class Main {
                 experiment = new Experiment5();
                 break;
             case 6:
-                //TODO experiment = new Experiment6();
+                experiment = new Experiment6();
                 break;
         }
 
