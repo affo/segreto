@@ -63,6 +63,8 @@ public class Main {
 
         Config conf = new Config();
         conf.setDebug(false);
+        // avoid org.apache.storm.topology.WindowedBoltExecutor.ensureDurationLessThanTimeout
+        conf.setMessageTimeoutSecs(windowSize + windowSlide);
 
         LocalCluster cluster = new LocalCluster();
         cluster.submitTopology(TOPOLOGY_NAME, conf, builder.createTopology());
