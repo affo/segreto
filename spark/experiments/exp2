@@ -1,0 +1,5 @@
+#!/bin/bash
+source utils.sh
+
+# InStream(Time, Val) = {(30,10),(31,20),(36,30), ...}
+play 30 10 31 20 36 30

@@ -4,26 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>it.polimi.nwlus.segreto</groupId>
+    <groupId>it.polimi.spark.helloworld</groupId>
     <artifactId>spark</artifactId>
-    <version>0.0</version>
+    <version>1.0</version>
 
     <dependencies>
+            <dependency>
+                <groupId>org.apache.spark</groupId>
+                <artifactId>spark-core_2.10</artifactId>
+                <version>1.6.1</version>
+            </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-core_2.10</artifactId>
-            <version>1.2.0</version>
+            <artifactId>spark-streaming_2.10</artifactId>
+            <version>1.6.1</version>
         </dependency>
     </dependencies>
 
-    <build>
-        <finalName>${artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-            </plugin>
-        </plugins>
-    </build>
 </project>
