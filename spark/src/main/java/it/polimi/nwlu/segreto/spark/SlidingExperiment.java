@@ -11,16 +11,16 @@ public class SlidingExperiment extends TumblingExperiment {
 
     private int omega;
 
-    public SlidingExperiment(String name, int omega, int beta, String host, int port) {
-        super(name, beta, host, port);
+    public SlidingExperiment(String name, int omega, int beta, String host, int port, SparkConf conf) {
+        super(name, beta, host, port, conf);
         this.omega = omega;
     }
 
     public void main(SparkConf conf) {
-        JavaStreamingContext context = new JavaStreamingContext(conf, Durations.seconds(beta));
+        JavaStreamingContext context = new JavaStreamingContext(conf, Durations.seconds(this.omega));
 
         context.socketTextStream(host, port)
-                .window(Durations.seconds(beta), Durations.seconds(omega))
+                .window(Durations.seconds(this.omega), Durations.seconds(omega))
                 .print();
 
         //stringJavaDStream.print();
