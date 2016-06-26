@@ -6,6 +6,8 @@ package it.polimi.nwlu.segreto.spark;
 public interface Experiment {
 
 
-    public void start(Proxy p, Object lock) throws InterruptedException;
+    public void start() throws InterruptedException;
+
+
 
 }
