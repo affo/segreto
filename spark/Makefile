@@ -1,5 +1,6 @@
 TEST_IMG=spark_segreto
 CNAME=segreto-running
+CNAMELOCAL="segreto-local-running"
 PROXY=segreto_proxy
 MAIN_CLASS=it.polimi.nwlus.segreto.spark.Main
 # You can specify arguments to the executable jar
@@ -13,12 +14,21 @@ build:
 	mvn package
 	docker build -t $(TEST_IMG) .
 
+local:
+	mvn package
+	cp target/spark-1.0.jar spark-local/
+	cp log4j.properties spark-local/
+	docker build -t spark-local spark-local/
+	docker run --name $(CNAMELOCAL) spark-local 1
+
 run:
-	docker run --link proxy --name segreto-running $(TEST_IMG) $(E)
+	docker rm $(CNAME); true
+	docker run --link proxy --name segreto-running -p 8080:8080 -p 8081:8081 -p 8088:8088 -p 8042:8042 -p 4040:4040 $(TEST_IMG)
 
 clean:
 	docker rm -f $(CNAME); true
 	docker rmi $(TEST_IMG); true
+	docker rm $(CNAMELOCAL); true
 
 proxy:
 	docker rmi $(PROXY); true
