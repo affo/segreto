@@ -49,11 +49,10 @@ public class Experiment {
                     String val = values[0] + "-" + values[1];
                     return new KeyValue<>("key", val);
                 })
-                .reduceByKey((acc, val) ->
-                                acc + ", " + val,
-                        TimeWindows.of("WordWindow", windowSize).advanceBy(windowSlide))
-                .toStream((wordWindow, value) -> "[" + wordWindow.window().start() + " - "
-                        + wordWindow.window().end() + "]");
+                .reduceByKey((acc, val) -> acc + ", " + val,
+                        TimeWindows.of("MySlidingWindow", windowSize).advanceBy(windowSlide))
+                .toStream((w, value) -> "[" + w.window().start() + " - "
+                        + w.window().end() + "]");
 
         output.to("OutTopic");
 
