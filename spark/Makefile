@@ -19,7 +19,9 @@ local:
 	cp target/spark-1.0.jar spark-local/
 	cp log4j.properties spark-local/
 	docker build -t spark-local spark-local/
-	docker run --name $(CNAMELOCAL) spark-local 1
+	
+runlocal:
+	docker run --name $(CNAMELOCAL) spark-local	$(E)
 
 run:
 	docker rm $(CNAME); true
