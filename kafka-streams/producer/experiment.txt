@@ -1,5 +1,12 @@
-45
-46
-47
-48
-
+# This file contains the values for the current experiment.
+# Values are in the form <timestamp>[-<value>] and separated
+# by a newline character.
+# For example:
+# 42
+# 43-hello
+# 45
+# 50-world
+# 55
+# 56
+# 58
+# 60
