@@ -2,7 +2,7 @@ IMG_NAME=segreto-kafka-streams
 IMG_PRODUCER=segreto-kafka-producer
 W=3 3
 
-all: build run
+all: dep build run
 
 dep:
 	docker network create segreto; true
