@@ -1,7 +1,6 @@
 package it.polimi.nwlu.segreto.spark;
 
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -11,52 +10,60 @@ import java.net.Socket;
 public class Proxy implements Runnable {
 
     private final int port;
-    private final String[][] play;
-    private final Object lock;
+    private String[] play;
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private boolean ready = false;
+    private int wait_time;
 
 
-    public Proxy(int port, String[] play, Object o) throws IOException {
+    public Proxy(int port, String experiment) throws IOException {
         this.port = port;
-        this.play = new String[play.length][2];
-        for (int i = 0; i < play.length; i++) {
-            this.play[i] = play[i].split(" ");
+
+        File f = new File(experiment);
+        BufferedReader br = new BufferedReader(new FileReader(f));
+        String line = br.readLine();
+        System.out.println(line);
+        play = line.split(" ");
+
+        wait_time = 0;
+
+        for (int i = 0; i < play.length - 1; i += 2) {
+
         }
+
+
         this.serverSocket = new ServerSocket(port);
-        this.lock = o;
     }
 
     public void run() {
-        synchronized (lock) {
-            System.out.println("Proxy Started on port [" + serverSocket.getLocalPort() + "]");
-            try {
+        System.out.println("Proxy Started on port [" + serverSocket.getLocalPort() + "]");
+        try {
 
-                clientSocket = serverSocket.accept();
-                System.out.println("Just connected to "
-                        + clientSocket.getRemoteSocketAddress());
+            clientSocket = serverSocket.accept();
+            System.out.println("Socket connected to " + clientSocket.getRemoteSocketAddress());
 
-                PrintStream out = new PrintStream(clientSocket.getOutputStream());
-                long time = 0;
-                for (String[] s : play) {
-                    out.println("(" + (time = System.currentTimeMillis()) + "  " + s[1] + ")");
-                    System.out.println("Sent [" + s[0] + " " + s[1] + "] at [" + time + "]");
-                    Thread.sleep(1 * 1000);
-                }
+            long time = 0;
+            PrintStream out = new PrintStream(clientSocket.getOutputStream());
 
-                out.println("Thank you for connecting to "
-                        + clientSocket.getLocalSocketAddress() + "\nGoodbye!");
+            for (int i = 0; i < play.length - 1; i += 2) {
+                System.out.println("Wait before starting " + (Integer.parseInt(play[i]) - wait_time) + " Seconds");
+                Thread.sleep((Integer.parseInt(play[i]) - wait_time) * 1000);
 
-                clientSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                wait_time = Integer.parseInt(play[i]);
+
+                out.println("(" + (time = System.currentTimeMillis()) + "  " + play[i] + "  " + play[1 + i] + ")");
+                System.out.println("Sent [" + play[i] + " " + play[1 + i] + "] at [" + time + "]");
             }
 
-
+            clientSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
+
     }
 
 }

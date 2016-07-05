@@ -1,5 +1,6 @@
 package it.polimi.nwlu.segreto.spark;
 
+import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 
 import java.io.Serializable;
@@ -7,7 +8,7 @@ import java.io.Serializable;
 /**
  * Created by Riccardo on 19/06/16.
  */
-public abstract class SecretExperiment implements Experiment, Serializable {
+public  class SecretExperiment implements Experiment, Serializable {
 
     protected final String host;
     protected final int port;
@@ -27,13 +28,19 @@ public abstract class SecretExperiment implements Experiment, Serializable {
         setupStream();
     }
 
+    public SecretExperiment(String name, int omega, String host, int port, JavaStreamingContext context) {
+        this(name, omega, omega, host, port, context);
+    }
+
     public void start() throws InterruptedException {
         context.start();
         Thread.sleep(100000);
         context.stop(true, true);
     }
 
-    protected abstract void setupStream();
+    protected  void setupStream(){
+        context.socketTextStream(host, port).window(Durations.seconds(omega), Durations.seconds(beta)).print();
+    }
 
 }
 

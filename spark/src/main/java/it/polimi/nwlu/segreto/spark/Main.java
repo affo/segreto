@@ -26,38 +26,34 @@ public class Main {
         JavaStreamingContext context = new JavaStreamingContext(conf, Durations.milliseconds(1));
 
 
-        Proxy p = new Proxy(port, new String[]{"10 10", "11 20", "12 30", "13 40",
-                "14 50", "15 60", "16 70", "17 80", "18 90", "19 100"}, lock);
+        Proxy p = new Proxy(port, "./experiments/exp" + experimentNumber);
         new Thread(p).start();
 
         SecretExperiment e = null;
 
         // The six time window experiments of SECRET
         switch (experimentNumber) {
-            case 0:
-                e = new TumblingExperiment("Experiment 0", 3, host, port, context);
-                break;
             case 1:
-                e = new TumblingExperiment("Experiment 1", 3, host, port, context);
+                e = new SecretExperiment("Experiment 1", 3, host, port, context);
                 break;
             case 2:
-                e = new SlidingExperiment("Experiment 2", 5, 1, host, port, context);
-                break;
-            case 3:
-                e = new SlidingExperiment("Experiment 3", 4, 1, host, port, context);
+                e = new SecretExperiment("Experiment 2", 5, 1, host, port, context);
                 break;
             case 4:
-                e = new SlidingExperiment("Experiment 4", 4, 1, host, port, context);
+                e = new SecretExperiment("Experiment 4", 4, 1, host, port, context);
                 break;
             case 5:
-                e = new TumblingExperiment("Experiment 5", 3, host, port, context);
+                e = new SecretExperiment("Experiment 5", 3, host, port, context);
                 break;
             case 6:
-                e = new TumblingExperiment("Experiment 6", 3, host, port, context);
+                e = new SecretExperiment("Experiment 6", 3, host, port, context);
+                break;
+            case 7:
+                /*Custom Experiment to understand tick and report*/
+                e = new SecretExperiment("Experiment Custom", Integer.parseInt(args[1]), Integer.parseInt(args[2]), host, port, context);
                 break;
             default:
-                e = new TumblingExperiment("Experiment 0 Default", 3, host, port, context);
-                break;
+                throw new RuntimeException("Use case do not exists!");
         }
 
 
