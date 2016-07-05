@@ -96,6 +96,9 @@ public class SecretMainExecuter {
 
 		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex1.csv", 10, "Storm", 3, 3, 0);
 		System.out.println(result);
+
+		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex1.csv", 10, "KafkaStreams", 3, 3, 0);
+		System.out.println(result);
 		
 		// Experiment # 2 
 		System.out.println("\nEXPERIMENT # 2\n");
@@ -116,6 +119,9 @@ public class SecretMainExecuter {
 		System.out.println(result);
 
 		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex2.csv", 30, "Storm", 5, 1, 0);
+		System.out.println(result);
+
+		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex2.csv", 30, "KafkaStreams", 5, 1, 0);
 		System.out.println(result);
 
 		// Experiment # 3 
@@ -148,6 +154,9 @@ public class SecretMainExecuter {
 		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex3.csv", 3, "Storm", 4, 1, 0);
 		System.out.println(result);
 
+		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex3.csv", 3, "KafkaStreams", 4, 1, 0);
+		System.out.println(result);
+
 		// Experiment # 5 
 		System.out.println("\nEXPERIMENT # 5\n");
 		
@@ -164,6 +173,9 @@ public class SecretMainExecuter {
 		System.out.println(result);
 
 		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex5.csv", 11, "Storm", 3, 3, 0);
+		System.out.println(result);
+
+		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex5.csv", 11, "KafkaStreams", 3, 3, 0);
 		System.out.println(result);
 		
 		// Experiment # 6 
@@ -188,6 +200,9 @@ public class SecretMainExecuter {
 		System.out.println(result);
 
 		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex6.csv", 3, "Storm", 3, 3, 0);
+		System.out.println(result);
+
+		result = run(projectDirectory+"data/VLDBJournalTimeBasedExp/ex6.csv", 3, "KafkaStreams", 3, 3, 0);
 		System.out.println(result);
 		
 	}
@@ -392,6 +407,10 @@ public class SecretMainExecuter {
 		else if(engineName.equalsIgnoreCase("Storm"))
 		{
 			return new StormParams(engineName, tstart, wQuery, ratio);
+		}
+		else if(engineName.equalsIgnoreCase("KafkaStreams"))
+		{
+			return new KafkaStreamsParams(engineName, tstart, wQuery, ratio);
 		}
 		return null;
 		
