@@ -1,4 +1,4 @@
-## Flink
+## Storm
 ### Running an Experiment
 
  * Write the experiment you want to run in `experiments/exp.current` (see
