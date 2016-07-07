@@ -155,6 +155,6 @@ public class Utils {
                         return new Tuple2<>(bid, record);
                     }
                 })
-                .assignTimestamps(Utils.<Tuple2<Integer,T>>getTSExtractor());
+                .assignTimestamps(Utils.<Tuple2<Integer, T>>getTSExtractor());
     }
 }

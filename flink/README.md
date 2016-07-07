@@ -14,3 +14,5 @@
 
     Press `ENTER`.
 
+ * If you want to see the output while the experiment is running, open another terminal
+    and run `make attach_to_out`.
