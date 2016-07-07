@@ -1,6 +1,7 @@
 ### Window
 
 __Size__: 3 seconds
+
 __Slide__: 3 seconds
 
 ### Timestamps - Values

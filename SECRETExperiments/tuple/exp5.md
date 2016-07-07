@@ -1,9 +1,10 @@
 ### Window
 
 __Size__: 2
+
 __Slide__: 2
 
-### Timestamps
+### Timestamps - Values
 
 10 - 10  
 10 - 20  
