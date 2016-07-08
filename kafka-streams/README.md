@@ -1,4 +1,5 @@
-## How to
+## Kafka Streams
+### Running an Experiment
 
  * Build the producer (required only once): `make build_producer`
  * Run the dependencies: `make dep`
