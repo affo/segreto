@@ -10,19 +10,26 @@ import java.util.Vector;
  * Created by affo on 18/02/16.
  */
 public class StormParams extends Engine {
+    private boolean timeBased;
 
     public StormParams(String name, int tt1, Query win, int ratio) {
         super(name);
         int w = win.getSize();
         int b = win.getSlide();
         int type = win.getType();
+        timeBased = type == 0;
 
         // if time-based window, calculate t0
-        if (type == 0) {
-            t0 = ((tt1 - 1) / b) * b - (w - b - 1);
-        } // if tuple-based window, calculate i0
+        if (timeBased) {
+            // calculate time as if it is tumbling
+            int tt0 = tt1 - (tt1 % b);
+            // calculate coefficient
+            int k = (tt0 - (tt1 - w + 1)) / b;
+            t0 = tt0 - k * b;
+        }
+        // if tuple-based window, calculate i0
         else {
-            // I don't know
+            t0 = b - w;
         }
 
         init(ratio);
@@ -30,15 +37,20 @@ public class StormParams extends Engine {
 
     @SuppressWarnings("unchecked")
     protected void init(int ratio) {
+        int startTime = t0;
+        if (timeBased) {
+            // I have to lie about my t0, because
+            // I (yes, because Storm does not give you
+            // the start and end of the window)
+            // modeled Storm thinking windows as [start, end],
+            // while SECRET thinks as (start, end]
+            startTime--;
+        }
+
         Vector scopeValues = new Vector();
         scopeValues.add(EnumDirection.Forward);
         scopeValues.add(EnumWindowType.Single);
-        // I have to lie about my t0, because
-        // I (yes, because Storm does not give you
-        // the start and end of the window)
-        // modeled Storm thinking windows as [start, end],
-        // while SECRET thinks as (start, end]
-        scopeValues.add(t0 - 1);
+        scopeValues.add(startTime);
         ScopeParam scopeParams = new ScopeParam(scopeValues, ratio);
         params.add(scopeParams);
 
@@ -59,7 +71,7 @@ public class StormParams extends Engine {
         // ----------------------------------------------------
 
         Vector tickValues = new Vector();
-        tickValues.add(t0 - 1);
+        tickValues.add(startTime);
         tickValues.add(EnumTick.TimeDriven);
         TickParam tickParams = new TickParam(tickValues, evalParams, ratio);
         params.add(tickParams);

@@ -34,12 +34,13 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        if (args.length < 2) {
-            throw new Exception("Pass windowSize and windowSlide in seconds, please.");
+        if (args.length < 3) {
+            throw new Exception("Pass count, windowSize and windowSlide, please.");
         }
 
-        int windowSize = Integer.parseInt(args[0]);
-        int windowSlide = Integer.parseInt(args[1]);
+        boolean count = Integer.parseInt(args[0]) != 0;
+        int windowSize = Integer.parseInt(args[1]);
+        int windowSlide = Integer.parseInt(args[2]);
 
         TopologyBuilder builder = new TopologyBuilder();
 
@@ -47,13 +48,21 @@ public class Main {
 
         WindowPrinter wp = new WindowPrinter();
 
-        System.out.println(">>> Set up with window size " + windowSize
-                + " and slide " + windowSlide);
+        String windowType = count ? "Count" : "Time";
+        System.out.println(">>> " + windowType + " window -> size: " + windowSize
+                + ", slide: " + windowSlide);
 
-        wp.withWindow(
-                new BaseWindowedBolt.Duration(windowSize, TimeUnit.SECONDS),
-                new BaseWindowedBolt.Duration(windowSlide, TimeUnit.SECONDS)
-        );
+        if (count) {
+            wp.withWindow(
+                    new BaseWindowedBolt.Count(windowSize),
+                    new BaseWindowedBolt.Count(windowSlide)
+            );
+        }else {
+            wp.withWindow(
+                    new BaseWindowedBolt.Duration(windowSize, TimeUnit.SECONDS),
+                    new BaseWindowedBolt.Duration(windowSlide, TimeUnit.SECONDS)
+            );
+        }
         wp.withTimestampField("ts");
         wp.withLag(new BaseWindowedBolt.Duration(1, TimeUnit.SECONDS));
         // as in Flink
