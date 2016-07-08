@@ -10,40 +10,46 @@ import java.util.Vector;
  * Created by affo on 18/02/16.
  */
 public class FlinkParams extends Engine {
+    private boolean timeBased;
 
     public FlinkParams(String name, int tt1, Query win, int ratio) {
         super(name);
         int w = win.getSize();
         int b = win.getSlide();
         int type = win.getType();
+        timeBased = type == 0;
 
         // if time-based window, calculate t0
-        if(type == 0)
-        {
+        if (timeBased) {
             // calculate time as if it is tumbling
             int tt0 = tt1 - (tt1 % b);
             // calculate coefficient
             int k = (tt0 - (tt1 - w + 1)) / b;
-            t0 =  tt0 - k * b;
-        } // if tuple-based window, calculate i0
-        else
-        {
-            // I don't know
+            t0 = tt0 - k * b;
+        }
+        // if tuple-based window, calculate i0
+        else {
+            t0 = b - w;
         }
 
         init(ratio);
     }
 
     @SuppressWarnings("unchecked")
-    protected void init(int ratio)
-    {
+    protected void init(int ratio) {
+        int startTime = t0;
+        if (timeBased) {
+            // I have to lie about my t0, because Flink
+            // thinks windows [start, end), while
+            // SECRET (start, end]
+            startTime--;
+        }
+
         Vector scopeValues = new Vector();
         scopeValues.add(EnumDirection.Forward);
         scopeValues.add(EnumWindowType.Single);
-        // I have to lie about my t0, because Flink
-        // thinks windows [start, end), while
-        // SECRET (start, end]
-        scopeValues.add(t0 - 1);
+
+        scopeValues.add(startTime);
         ScopeParam scopeParams = new ScopeParam(scopeValues, ratio);
         params.add(scopeParams);
 
@@ -64,8 +70,12 @@ public class FlinkParams extends Engine {
         // ----------------------------------------------------
 
         Vector tickValues = new Vector();
-        tickValues.add(t0 - 1);
-        tickValues.add(EnumTick.TimeDriven);
+        tickValues.add(startTime);
+        if (timeBased) {
+            tickValues.add(EnumTick.TimeDriven);
+        } else {
+            tickValues.add(EnumTick.TupleDriven);
+        }
         TickParam tickParams = new TickParam(tickValues, evalParams, ratio);
         params.add(tickParams);
 

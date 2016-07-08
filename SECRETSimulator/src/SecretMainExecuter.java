@@ -231,6 +231,9 @@ public class SecretMainExecuter {
         result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex1.csv", 10, "StreamBase", 3, 2, 1);
         System.out.println(result);
 
+        result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex1.csv", 10, "Flink", 3, 2, 1);
+        System.out.println(result);
+
         // Experiment # 2
         System.out.println("\nEXPERIMENT # 2\n");
 
@@ -241,6 +244,9 @@ public class SecretMainExecuter {
         System.out.println(result);
 
         result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex1.csv", 10, "StreamBase", 3, 3, 1);
+        System.out.println(result);
+
+        result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex1.csv", 10, "Flink", 3, 3, 1);
         System.out.println(result);
 
 
@@ -259,6 +265,9 @@ public class SecretMainExecuter {
         result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex3-tuple.csv", 10, "StreamBase", 1, 1, 1);
         System.out.println(result);
 
+        result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex3-tuple.csv", 10, "Flink", 1, 1, 1);
+        System.out.println(result);
+
 
         // Experiment # 4
         System.out.println("\nEXPERIMENT # 4\n");
@@ -267,6 +276,9 @@ public class SecretMainExecuter {
         System.out.println(result);
 
         result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex3-tuple.csv", 10, "StreamBase", 3, 2, 1);
+        System.out.println(result);
+
+        result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex3-tuple.csv", 10, "Flink", 3, 2, 1);
         System.out.println(result);
 
 
@@ -283,6 +295,9 @@ public class SecretMainExecuter {
         System.out.println(result);
 
         result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex3-tuple.csv", 10, "StreamBase", 2, 2, 1);
+        System.out.println(result);
+
+        result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex3-tuple.csv", 10, "Flink", 2, 2, 1);
         System.out.println(result);
 
     }

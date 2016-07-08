@@ -3,6 +3,7 @@ CNAME=segreto-running
 MAIN_CLASS=it.polimi.nwlus.segreto.Main
 # You can specify arguments to the executable jar
 # specifying a --args option.
+COUNT=0
 W=3 3
 
 all: run
@@ -13,7 +14,7 @@ build:
 	docker build -t $(TEST_IMG) .
 
 run: clean build
-	docker run -it --link proxy --name $(CNAME) $(TEST_IMG) -c$(MAIN_CLASS) --args $(W)
+	docker run -it --link proxy --name $(CNAME) $(TEST_IMG) -c$(MAIN_CLASS) --args $(COUNT) $(W)
 
 attach_to_out:
 	docker exec -it $(CNAME) ./attach_to_out.sh
