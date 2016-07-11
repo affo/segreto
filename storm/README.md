@@ -13,4 +13,3 @@
     ```
 
     Press `ENTER`.
-
