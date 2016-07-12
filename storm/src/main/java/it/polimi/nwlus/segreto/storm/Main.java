@@ -57,16 +57,19 @@ public class Main {
                     new BaseWindowedBolt.Count(windowSize),
                     new BaseWindowedBolt.Count(windowSlide)
             );
-        }else {
+
+            // no watermarking machanism in this case
+        } else {
             wp.withWindow(
                     new BaseWindowedBolt.Duration(windowSize, TimeUnit.SECONDS),
                     new BaseWindowedBolt.Duration(windowSlide, TimeUnit.SECONDS)
             );
+
+            wp.withTimestampField("ts");
+            wp.withLag(new BaseWindowedBolt.Duration(1, TimeUnit.SECONDS));
+            // as in Flink
+            wp.withWatermarkInterval(new BaseWindowedBolt.Duration(200, TimeUnit.MILLISECONDS));
         }
-        wp.withTimestampField("ts");
-        wp.withLag(new BaseWindowedBolt.Duration(1, TimeUnit.SECONDS));
-        // as in Flink
-        wp.withWatermarkInterval(new BaseWindowedBolt.Duration(200, TimeUnit.MILLISECONDS));
 
         builder.setBolt("windower", wp, 1).globalGrouping("spout");
 

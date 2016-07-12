@@ -72,7 +72,11 @@ public class StormParams extends Engine {
 
         Vector tickValues = new Vector();
         tickValues.add(startTime);
-        tickValues.add(EnumTick.TimeDriven);
+        if (timeBased) {
+            tickValues.add(EnumTick.TimeDriven);
+        } else {
+            tickValues.add(EnumTick.TupleDriven);
+        }
         TickParam tickParams = new TickParam(tickValues, evalParams, ratio);
         params.add(tickParams);
 
