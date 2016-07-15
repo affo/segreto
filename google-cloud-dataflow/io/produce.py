@@ -69,8 +69,6 @@ if __name__ == '__main__':
     print "The experiment is finished."
     print "Now we send an infinite sled of tuples."
     print
-    time.sleep(3)
-    last_ts += 3
 
     # Ok, the experiment has been played.
     # Now go ahead with other tuples to make
