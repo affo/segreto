@@ -21,11 +21,11 @@ public class StormParams extends Engine {
 
         // if time-based window, calculate t0
         if (timeBased) {
-            // calculate time as if it is tumbling
-            int tt0 = tt1 - (tt1 % b);
-            // calculate coefficient
-            int k = (tt0 - (tt1 - w + 1)) / b;
-            t0 = tt0 - k * b;
+            //t0 = ((tt1 - 1) / b) * b - (w - b - 1);
+            // we discovered that, with time-based windows,
+            // given that we have not-empty content,
+            // t0 = b - w is equivalent to the formula above.
+            t0 = b - w + 1;
         }
         // if tuple-based window, calculate i0
         else {

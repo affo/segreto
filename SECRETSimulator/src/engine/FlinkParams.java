@@ -19,6 +19,7 @@ public class FlinkParams extends Engine {
         int type = win.getType();
         timeBased = type == 0;
 
+        /*
         // if time-based window, calculate t0
         if (timeBased) {
             // calculate time as if it is tumbling
@@ -31,6 +32,12 @@ public class FlinkParams extends Engine {
         else {
             t0 = b - w;
         }
+        */
+
+        // we discovered that, with time-based windows,
+        // given that we have not-empty content,
+        // t0 = b - w is equivalent to the formula above.
+        t0 = b - w;
 
         init(ratio);
     }
