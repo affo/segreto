@@ -1,7 +1,7 @@
 ## Install
 
 You will need to follow the steps below in order to be able
-to run any query on Azure Streaming Analytics:
+to run a query on Azure Streaming Analytics:
 
 __First__ of all:
 
@@ -36,10 +36,12 @@ __NOTE__: Remember that you will use the names you give now to the input hub and
 when running the producer and the consumer scripts.
 
 __Fourth__:
-__Create a `servicebus\_credentials.txt` file__ in this folder containing your SAS key for the ServiceBus.
+
+Create a __`servicebus_credentials.txt` file__ in this folder containing your SAS key for the ServiceBus.
 You can get your SAS key from you Azure Portal in the ServiceBus section.
 
 __Fifth__:
+
 Eventually, you will need to specify the continuous query:
 
 ```
@@ -54,7 +56,7 @@ GROUP BY
     HoppingWindow(second, [size], [slide])
 ```
 
-_Sixth__:
+__Sixth__:
 
 __Start__ your streaming analytics job from your portal.
 
