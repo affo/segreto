@@ -37,26 +37,25 @@ public class FlinkParams extends Engine {
         // we discovered that, with time-based windows,
         // given that we have not-empty content,
         // t0 = b - w is equivalent to the formula above.
-        t0 = b - w;
+
+        // if time-based window, calculate t0
+        if (timeBased) {
+            t0 = b - w - 1;
+        } // if tuple-based window, calculate i0
+        else {
+            t0 = b - w;
+        }
 
         init(ratio);
     }
 
     @SuppressWarnings("unchecked")
     protected void init(int ratio) {
-        int startTime = t0;
-        if (timeBased) {
-            // I have to lie about my t0, because Flink
-            // thinks windows [start, end), while
-            // SECRET (start, end]
-            startTime--;
-        }
-
         Vector scopeValues = new Vector();
         scopeValues.add(EnumDirection.Forward);
         scopeValues.add(EnumWindowType.Single);
 
-        scopeValues.add(startTime);
+        scopeValues.add(t0);
         ScopeParam scopeParams = new ScopeParam(scopeValues, ratio);
         params.add(scopeParams);
 
@@ -77,7 +76,7 @@ public class FlinkParams extends Engine {
         // ----------------------------------------------------
 
         Vector tickValues = new Vector();
-        tickValues.add(startTime);
+        tickValues.add(t0);
         if (timeBased) {
             tickValues.add(EnumTick.TimeDriven);
         } else {

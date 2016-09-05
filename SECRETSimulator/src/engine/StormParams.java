@@ -25,7 +25,7 @@ public class StormParams extends Engine {
             // we discovered that, with time-based windows,
             // given that we have not-empty content,
             // t0 = b - w is equivalent to the formula above.
-            t0 = b - w + 1;
+            t0 = b - w;
         }
         // if tuple-based window, calculate i0
         else {
@@ -37,20 +37,10 @@ public class StormParams extends Engine {
 
     @SuppressWarnings("unchecked")
     protected void init(int ratio) {
-        int startTime = t0;
-        if (timeBased) {
-            // I have to lie about my t0, because
-            // I (yes, because Storm does not give you
-            // the start and end of the window)
-            // modeled Storm thinking windows as [start, end],
-            // while SECRET thinks as (start, end]
-            startTime--;
-        }
-
         Vector scopeValues = new Vector();
         scopeValues.add(EnumDirection.Forward);
         scopeValues.add(EnumWindowType.Single);
-        scopeValues.add(startTime);
+        scopeValues.add(t0);
         ScopeParam scopeParams = new ScopeParam(scopeValues, ratio);
         params.add(scopeParams);
 
@@ -71,7 +61,7 @@ public class StormParams extends Engine {
         // ----------------------------------------------------
 
         Vector tickValues = new Vector();
-        tickValues.add(startTime);
+        tickValues.add(t0);
         if (timeBased) {
             tickValues.add(EnumTick.TimeDriven);
         } else {
