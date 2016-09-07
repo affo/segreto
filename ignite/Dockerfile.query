@@ -1,0 +1,5 @@
+FROM affo/ignite:1.7.0
+
+ADD target/ignite-query.jar /
+
+ENTRYPOINT ["java", "-jar", "ignite-query.jar"]
