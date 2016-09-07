@@ -1,3 +1,3 @@
 # This file contains the timestamps for the current experiment.
 
-42
+0

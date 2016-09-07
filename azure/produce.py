@@ -1,5 +1,6 @@
 # Courtesy of ../google-cloud-dataflow/io
 import json, random
+from datetime import datetime
 from utils import *
 from azure.servicebus import ServiceBusService
 
@@ -35,7 +36,8 @@ if __name__ == '__main__':
         data = dict(tapp=tapp, value=value)
         msg = json.dumps(data, encoding='utf-8')
         bus_service.send_event(HUB_NAME, msg, device_id="mylaptop")
-        print '>>>', msg
+        iso_ts = datetime.fromtimestamp(tapp / 1000).isoformat()
+        print '>', msg, iso_ts
 
     timestamps = load_input('experiment.txt')
 
