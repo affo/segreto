@@ -1,3 +1,5 @@
+_This project is licensed under the terms of the Apache License Version 2.0_
+
 This repository contains the codebase to run simple experiments
 on different SPEs.
 
