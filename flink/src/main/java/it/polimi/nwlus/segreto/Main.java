@@ -6,6 +6,7 @@ import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.util.Collector;
 
@@ -40,7 +41,13 @@ public class Main {
         System.out.println(">>> " + windowType + " window -> size: " + windowSize
                 + ", slide: " + windowSlide);
 
-        input = input.assignTimestamps(Utils.<Tuple2<Integer, Integer>>getTSExtractor());
+        input = input.assignTimestampsAndWatermarks(
+                new BoundedOutOfOrdernessTimestampExtractor<Tuple2<Integer, Integer>>(Time.seconds(1)) {
+                    @Override
+                    public long extractTimestamp(Tuple2<Integer, Integer> element) {
+                        return element.f0 * 1000;
+                    }
+                });
 
         if (count) {
             input

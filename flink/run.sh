@@ -1,5 +1,5 @@
 #!/bin/bash
-start-local-streaming.sh
+start-local.sh
 
 i=0
 for arg in "$@";

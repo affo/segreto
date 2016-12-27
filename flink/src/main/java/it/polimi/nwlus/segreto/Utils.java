@@ -6,7 +6,6 @@ import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.functions.AscendingTimestampExtractor;
 import org.apache.flink.streaming.api.functions.TimestampExtractor;
 import org.apache.flink.streaming.api.functions.windowing.AllWindowFunction;
 import org.apache.flink.streaming.api.windowing.windows.GlobalWindow;
@@ -133,15 +132,6 @@ public class Utils {
                 }
 
                 return lastWM;
-            }
-        };
-    }
-
-    public static TimestampExtractor<Tuple2<Integer, Integer>> getAscendingExtractor() {
-        return new AscendingTimestampExtractor<Tuple2<Integer, Integer>>() {
-            @Override
-            public long extractAscendingTimestamp(Tuple2<Integer, Integer> element, long previousElementTimestamp) {
-                return element.f0 * 1000;
             }
         };
     }

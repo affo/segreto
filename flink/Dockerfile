@@ -1,4 +1,4 @@
-FROM affo/flink:0.10.0
+FROM affo/flink:1.1.4
 
 ADD target/flink.jar $FLINK_HOME/lib/
 ADD target/flink.jar ./
