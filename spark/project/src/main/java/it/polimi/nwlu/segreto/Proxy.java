@@ -1,4 +1,4 @@
-package it.polimi.nwlu.segreto.spark;
+package it.polimi.nwlu.segreto;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -19,7 +19,7 @@ public class Proxy implements Runnable {
 
     public Proxy(int port, String experiment) throws IOException {
         this.port = port;
-
+        
         File f = new File(experiment);
         BufferedReader br = new BufferedReader(new FileReader(f));
         String line = br.readLine();
@@ -31,8 +31,6 @@ public class Proxy implements Runnable {
         for (int i = 0; i < play.length - 1; i += 2) {
 
         }
-
-
         this.serverSocket = new ServerSocket(port);
     }
 
@@ -62,8 +60,5 @@ public class Proxy implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
-
 }

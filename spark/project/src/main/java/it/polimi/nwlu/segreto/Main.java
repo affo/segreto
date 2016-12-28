@@ -1,4 +1,4 @@
-package it.polimi.nwlu.segreto.spark;
+package it.polimi.nwlu.segreto;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -15,7 +15,6 @@ public class Main {
 
     private static final String host = "localhost";
     private static final int port = 9999;
-    private static final Object lock = new Object();
 
     public static void main(String[] args) throws IOException {
 
@@ -25,7 +24,7 @@ public class Main {
         SparkConf conf = new SparkConf().setAppName("SparkExperiment" + experimentNumber);//.setMaster("local[*]");
         JavaStreamingContext context = new JavaStreamingContext(conf, Durations.milliseconds(1));
 
-
+        System.out.println("Starting Experiment [" + experimentNumber +"]");
         Proxy p = new Proxy(port, "./experiments/exp" + experimentNumber);
         new Thread(p).start();
 
@@ -56,12 +55,10 @@ public class Main {
                 throw new RuntimeException("Use case do not exists!");
         }
 
-
         try {
             e.start();
         } catch (InterruptedException e1) {
             System.out.println("Experiment " + experimentNumber + " Terminated");
         }
-
     }
 }

@@ -1,0 +1,31 @@
+docker run --name "segreto-local-running" spark-local	7 30 30
+docker run --name "segreto-local-running" spark-local	7 30 30
+30 10 40 11 50 12 60 13
+Proxy Started on port [9999]
+Socket connected to /127.0.0.1:37146
+Wait before starting 30 Seconds
+Sent [30 10] at [1467712257675]
+Wait before starting 10 Seconds
+-------------------------------------------
+Time: 1467712257031 ms
+-------------------------------------------
+
+Sent [40 11] at [1467712267675]
+Wait before starting 10 Seconds
+Sent [50 12] at [1467712277676]
+Wait before starting 10 Seconds
+Sent [60 13] at [1467712287677]
+2016-07-05 09:51:27,697 [dispatcher-event-loop-1] ERROR org.apache.spark.streaming.scheduler.ReceiverTracker - Deregistered receiver for stream 0: Restarting receiver with delay 2000ms: Socket data stream had no more data
+-------------------------------------------
+Time: 1467712287031 ms
+-------------------------------------------
+(1467712257675  30  10)
+(1467712267675  40  11)
+(1467712277676  50  12)
+
+-------------------------------------------
+Time: 1467712317031 ms
+-------------------------------------------
+(1467712287677  60  13)
+
+2016-07-05 09:52:07,140 [dispatcher-event-loop-0] ERROR org.apache.spark.streaming.scheduler.ReceiverTracker - Deregistered receiver for stream 0: Stopped by driver

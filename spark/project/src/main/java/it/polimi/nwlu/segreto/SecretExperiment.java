@@ -1,4 +1,4 @@
-package it.polimi.nwlu.segreto.spark;
+package it.polimi.nwlu.segreto;
 
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;

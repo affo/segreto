@@ -1,0 +1,88 @@
+docker rm -f spark_segreto_; true
+spark_segreto_
+docker rm spark_segreto_; true
+docker run --name spark_segreto_ spark_segreto	1
+Starting Experiment [1]
+10 10 11 20 12 30 13 40 14 50 15 60 16 70 17 80 18 90 19 100
+Proxy Started on port [9999]
+Socket connected to /127.0.0.1:57844
+Wait before starting 10 Seconds
+-------------------------------------------
+Time: 1482939330031 ms
+-------------------------------------------
+
+-------------------------------------------
+Time: 1482939333031 ms
+-------------------------------------------
+
+-------------------------------------------
+Time: 1482939336031 ms
+-------------------------------------------
+
+Sent [10 10] at [1482939337999]
+Wait before starting 1 Seconds
+Sent [11 20] at [1482939339003]
+Wait before starting 1 Seconds
+Sent [12 30] at [1482939340004]
+Wait before starting 1 Seconds
+-------------------------------------------
+Time: 1482939339031 ms
+-------------------------------------------
+(1482939337999  10  10)
+
+Sent [13 40] at [1482939341004]
+Wait before starting 1 Seconds
+Sent [14 50] at [1482939342004]
+Wait before starting 1 Seconds
+Sent [15 60] at [1482939343005]
+Wait before starting 1 Seconds
+-------------------------------------------
+Time: 1482939342031 ms
+-------------------------------------------
+(1482939339003  11  20)
+(1482939340004  12  30)
+(1482939341004  13  40)
+
+Sent [16 70] at [1482939344006]
+Wait before starting 1 Seconds
+Sent [17 80] at [1482939345008]
+Wait before starting 1 Seconds
+-------------------------------------------
+Time: 1482939345031 ms
+-------------------------------------------
+(1482939342004  14  50)
+(1482939343005  15  60)
+(1482939344006  16  70)
+
+Sent [18 90] at [1482939346024]
+Wait before starting 1 Seconds
+Sent [19 100] at [1482939347024]
+2016-12-28 15:35:47,041 [dispatcher-event-loop-1] ERROR org.apache.spark.streaming.scheduler.ReceiverTracker - Deregistered receiver for stream 0: Restarting receiver with delay 2000ms: Socket data stream had no more data
+-------------------------------------------
+Time: 1482939348031 ms
+-------------------------------------------
+(1482939345008  17  80)
+(1482939346024  18  90)
+(1482939347024  19  100)
+
+-------------------------------------------
+Time: 1482939351031 ms
+-------------------------------------------
+
+-------------------------------------------
+Time: 1482939354031 ms
+-------------------------------------------
+
+-------------------------------------------
+Time: 1482939357031 ms
+-------------------------------------------
+
+-------------------------------------------
+Time: 1482939360031 ms
+-------------------------------------------
+
+-------------------------------------------
+Time: 1482939363031 ms
+-------------------------------------------
+
+2016-12-28 15:36:05,068 [dispatcher-event-loop-0] ERROR org.apache.spark.streaming.scheduler.ReceiverTracker - Deregistered receiver for stream 0: Stopped by driver

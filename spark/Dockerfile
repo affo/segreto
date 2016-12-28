@@ -1,10 +1,7 @@
-FROM tomma/spark:1.6.1
+FROM tomma/spark:2.0.2
 
-ADD target/spark-1.0.jar $SPARK_HOME/lib/
+ADD project/target/segreto_spark-2.1.0.jar $SPARK_HOME/lib/segreto_spark-2.1.0.jar
 ADD log4j.properties $SPARK_HOME/conf/
-ADD current.experiment ./
-ADD run.sh ./
-RUN chmod u+x run.sh
+ADD experiments ./experiments
 
-ENTRYPOINT ["./run.sh", "1"]
-
+ENTRYPOINT ["./bin/spark-submit", "--master", "local[4]", "--class" , "it.polimi.nwlu.segreto.Main", "lib/segreto_spark-2.1.0.jar"]
