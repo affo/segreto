@@ -19,7 +19,7 @@ public class KafkaStreamsParams extends Engine {
 
         // if time-based window, calculate t0
         if (type == 0) {
-            t0 = (Math.max(0, tt1 - w + b) / b) * b;
+            t0 = (Math.max(0, tt1 - w + b) / b) * b - 1;
         } // if tuple-based window, calculate i0
         else {
             // I don't know
@@ -33,8 +33,7 @@ public class KafkaStreamsParams extends Engine {
         Vector scopeValues = new Vector();
         scopeValues.add(EnumDirection.Forward);
         scopeValues.add(EnumWindowType.Single);
-        // I have to lie about my t0 as in Flink
-        scopeValues.add(t0 - 1);
+        scopeValues.add(t0);
         ScopeParam scopeParams = new ScopeParam(scopeValues, ratio);
         params.add(scopeParams);
 
@@ -57,7 +56,7 @@ public class KafkaStreamsParams extends Engine {
         // ----------------------------------------------------
 
         Vector tickValues = new Vector();
-        tickValues.add(t0 - 1);
+        tickValues.add(t0);
         tickValues.add(EnumTick.TupleDriven);
         TickParam tickParams = new TickParam(tickValues, evalParams, ratio);
         params.add(tickParams);

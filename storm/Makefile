@@ -1,5 +1,6 @@
 TEST_IMG=segreto-storm
 MAIN_CLASS=it.polimi.nwlus.segreto.storm.Main
+COUNT=0
 W=3 3
 
 all: clean build run
@@ -9,7 +10,7 @@ build:
 	docker build -t $(TEST_IMG) .
 
 run:
-	docker run --link proxy --name segreto-running $(TEST_IMG) $(MAIN_CLASS) $(W)
+	docker run --link proxy --name segreto-running $(TEST_IMG) $(MAIN_CLASS) $(COUNT) $(W)
 
 clean:
 	docker rm -f segreto-running; true

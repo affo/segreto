@@ -59,7 +59,7 @@ public class SecretMainExecuter {
             int size = Integer.parseInt(args[3]);
             int slide = Integer.parseInt(args[4]);
             /* qtype=0 is for time-based windows
-			 * qtype=1 is for tuple-based windows*/
+             * qtype=1 is for tuple-based windows*/
             int qtype = Integer.parseInt(args[5]);
 
             String result = run(inputFilename, tstart, engineName, size, slide, qtype);
@@ -98,6 +98,9 @@ public class SecretMainExecuter {
         result = run(projectDirectory + "data/VLDBJournalTimeBasedExp/ex1.csv", 10, "Spark16", 3, 3, 0);
         System.out.println(result);
 
+        result = run(projectDirectory + "data/VLDBJournalTimeBasedExp/ex1.csv", 10, "Dataflow", 3, 3, 0);
+        System.out.println(result);
+
         // Experiment # 2
         System.out.println("\nEXPERIMENT # 2\n");
 
@@ -123,6 +126,9 @@ public class SecretMainExecuter {
         System.out.println(result);
 
         result = run(projectDirectory + "data/VLDBJournalTimeBasedExp/ex2.csv", 30, "Spark16", 5, 1, 0);
+        System.out.println(result);
+
+        result = run(projectDirectory + "data/VLDBJournalTimeBasedExp/ex2.csv", 30, "Dataflow", 5, 1, 0);
         System.out.println(result);
 
         // Experiment # 3
@@ -161,6 +167,9 @@ public class SecretMainExecuter {
         result = run(projectDirectory + "data/VLDBJournalTimeBasedExp/ex3.csv", 3, "Spark16", 4, 1, 0);
         System.out.println(result);
 
+        result = run(projectDirectory + "data/VLDBJournalTimeBasedExp/ex3.csv", 3, "Dataflow", 4, 1, 0);
+        System.out.println(result);
+
         // Experiment # 5
         System.out.println("\nEXPERIMENT # 5\n");
 
@@ -183,6 +192,9 @@ public class SecretMainExecuter {
         System.out.println(result);
 
         result = run(projectDirectory + "data/VLDBJournalTimeBasedExp/ex5.csv", 11, "Spark16", 3, 3, 0);
+        System.out.println(result);
+
+        result = run(projectDirectory + "data/VLDBJournalTimeBasedExp/ex5.csv", 11, "Dataflow", 3, 3, 0);
         System.out.println(result);
 
         // Experiment # 6
@@ -215,6 +227,9 @@ public class SecretMainExecuter {
         result = run(projectDirectory + "data/VLDBJournalTimeBasedExp/ex6.csv", 3, "Spark16", 3, 3, 0);
         System.out.println(result);
 
+        result = run(projectDirectory + "data/VLDBJournalTimeBasedExp/ex6.csv", 3, "Dataflow", 3, 3, 0);
+        System.out.println(result);
+
     }
 
     /**
@@ -231,6 +246,12 @@ public class SecretMainExecuter {
         result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex1.csv", 10, "StreamBase", 3, 2, 1);
         System.out.println(result);
 
+        result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex1.csv", 10, "Flink", 3, 2, 1);
+        System.out.println(result);
+
+        result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex1.csv", 10, "Storm", 3, 2, 1);
+        System.out.println(result);
+
         // Experiment # 2
         System.out.println("\nEXPERIMENT # 2\n");
 
@@ -243,6 +264,11 @@ public class SecretMainExecuter {
         result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex1.csv", 10, "StreamBase", 3, 3, 1);
         System.out.println(result);
 
+        result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex1.csv", 10, "Flink", 3, 3, 1);
+        System.out.println(result);
+
+        result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex1.csv", 10, "Storm", 3, 3, 1);
+        System.out.println(result);
 
         // Experiment # 3
         System.out.println("\nEXPERIMENT # 3\n");
@@ -259,6 +285,11 @@ public class SecretMainExecuter {
         result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex3-tuple.csv", 10, "StreamBase", 1, 1, 1);
         System.out.println(result);
 
+        result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex3-tuple.csv", 10, "Flink", 1, 1, 1);
+        System.out.println(result);
+
+        result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex3-tuple.csv", 10, "Storm", 1, 1, 1);
+        System.out.println(result);
 
         // Experiment # 4
         System.out.println("\nEXPERIMENT # 4\n");
@@ -269,6 +300,11 @@ public class SecretMainExecuter {
         result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex3-tuple.csv", 10, "StreamBase", 3, 2, 1);
         System.out.println(result);
 
+        result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex3-tuple.csv", 10, "Flink", 3, 2, 1);
+        System.out.println(result);
+
+        result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex3-tuple.csv", 10, "Storm", 3, 2, 1);
+        System.out.println(result);
 
         // Experiment # 5
         System.out.println("\nEXPERIMENT # 5\n");
@@ -285,6 +321,11 @@ public class SecretMainExecuter {
         result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex3-tuple.csv", 10, "StreamBase", 2, 2, 1);
         System.out.println(result);
 
+        result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex3-tuple.csv", 10, "Flink", 2, 2, 1);
+        System.out.println(result);
+
+        result = run(projectDirectory + "data/VLDBJournalTupleBasedExp/ex3-tuple.csv", 10, "Storm", 2, 2, 1);
+        System.out.println(result);
     }
 
     /**
@@ -335,8 +376,8 @@ public class SecretMainExecuter {
                     tupleParams[i] = Integer.parseInt(tokens.nextToken());
                     i++;
                 }
-				/* 
-				 * tupleParams[0]: system-time
+                /*
+                 * tupleParams[0]: system-time
 				 * tupleParams[1]: tuple-id
 				 * tupleParams[2]: application-time
 				 * tupleParams[3]: batch-id
@@ -405,6 +446,8 @@ public class SecretMainExecuter {
             return new KafkaStreamsParams(engineName, tstart, wQuery, ratio);
         } else if (engineName.equalsIgnoreCase("Spark16")) {
             return new Spark16Params(engineName, tstart, wQuery, ratio);
+        } else if (engineName.equalsIgnoreCase("Dataflow")) {
+            return new FlinkParams(engineName, tstart, wQuery, ratio);
         }
         return null;
 

@@ -6,21 +6,21 @@ import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.functions.windowing.AllWindowFunction;
+import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor;
 import org.apache.flink.streaming.api.windowing.time.Time;
-import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
 
 import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        if (args.length < 2) {
-            throw new Exception("Pass windowSize and windowSlide in seconds, please.");
+        if (args.length < 3) {
+            throw new Exception("Pass count, windowSize and windowSlide, please.");
         }
 
-        int windowSize = Integer.parseInt(args[0]);
-        int windowSlide = Integer.parseInt(args[1]);
+        boolean count = Integer.parseInt(args[0]) != 0;
+        int windowSize = Integer.parseInt(args[1]);
+        int windowSlide = Integer.parseInt(args[2]);
 
         final StreamExecutionEnvironment env = StreamExecutionEnvironment
                 .getExecutionEnvironment();
@@ -37,28 +37,31 @@ public class Main {
                 }
         );
 
-        System.out.println(">>> Set up with window size " + windowSize
-                + " and slide " + windowSlide);
+        String windowType = count ? "Count" : "Time";
+        System.out.println(">>> " + windowType + " window -> size: " + windowSize
+                + ", slide: " + windowSlide);
 
-        input
-                .assignTimestamps(Utils.<Tuple2<Integer, Integer>>getTSExtractor())
-                .timeWindowAll(
-                        Time.of(windowSize, TimeUnit.SECONDS),
-                        Time.of(windowSlide, TimeUnit.SECONDS)
-                )
-                .apply(
-                        new AllWindowFunction<Tuple2<Integer, Integer>, String, TimeWindow>() {
-                            @Override
-                            public void apply(
-                                    TimeWindow window,
-                                    Iterable<Tuple2<Integer, Integer>> values,
-                                    Collector<String> out) throws Exception {
-                                String res = Utils.windowToString(window, values);
-                                out.collect(res);
-                            }
-                        }
-                )
-                .print();
+        input = input.assignTimestampsAndWatermarks(
+                new BoundedOutOfOrdernessTimestampExtractor<Tuple2<Integer, Integer>>(Time.seconds(1)) {
+                    @Override
+                    public long extractTimestamp(Tuple2<Integer, Integer> element) {
+                        return element.f0 * 1000;
+                    }
+                });
+
+        if (count) {
+            input
+                    .countWindowAll(windowSize, windowSlide)
+                    .apply(Utils.<Tuple2<Integer, Integer>>countWindowFunction())
+                    .print();
+        } else {
+            input
+                    .timeWindowAll(
+                            Time.of(windowSize, TimeUnit.SECONDS),
+                            Time.of(windowSlide, TimeUnit.SECONDS))
+                    .apply(Utils.<Tuple2<Integer, Integer>>timeWindowFunction())
+                    .print();
+        }
 
         env.execute();
     }

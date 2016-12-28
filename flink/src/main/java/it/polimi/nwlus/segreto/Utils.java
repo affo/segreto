@@ -6,27 +6,62 @@ import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.functions.AscendingTimestampExtractor;
 import org.apache.flink.streaming.api.functions.TimestampExtractor;
+import org.apache.flink.streaming.api.functions.windowing.AllWindowFunction;
+import org.apache.flink.streaming.api.windowing.windows.GlobalWindow;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
+import org.apache.flink.util.Collector;
 
 /**
  * Created by affo on 10/02/16.
  */
 public class Utils {
-    public static <T> String windowToString(TimeWindow window, Iterable<T> values) {
-        String res = Thread.currentThread().getId() + " - ";
+    public static <T> AllWindowFunction<T, String, GlobalWindow> countWindowFunction() {
+        return new AllWindowFunction<T, String, GlobalWindow>() {
+            @Override
+            public void apply(
+                    GlobalWindow window,
+                    Iterable<T> values,
+                    Collector<String> out) throws Exception {
+                String res = Thread.currentThread().getId() + " - ";
 
-        res += "(" + window.getStart() + ") [";
+                res += "[";
 
-        for (T v : values) {
-            res += v.toString() + ", ";
-        }
+                for (T v : values) {
+                    res += v.toString() + ", ";
+                }
 
-        res = res.substring(0, res.length() - 2);
+                res = res.substring(0, res.length() - 2);
 
-        res += "] (" + window.getEnd() + ")";
-        return res;
+                res += "]";
+
+                out.collect(res);
+            }
+        };
+    }
+
+    public static <T> AllWindowFunction<T, String, TimeWindow> timeWindowFunction() {
+        return new AllWindowFunction<T, String, TimeWindow>() {
+            @Override
+            public void apply(
+                    TimeWindow window,
+                    Iterable<T> values,
+                    Collector<String> out) throws Exception {
+                String res = Thread.currentThread().getId() + " - ";
+
+                res += "(" + window.getStart() + ") [";
+
+                for (T v : values) {
+                    res += v.toString() + ", ";
+                }
+
+                res = res.substring(0, res.length() - 2);
+
+                res += "] (" + window.getEnd() + ")";
+
+                out.collect(res);
+            }
+        };
     }
 
     public static <T extends Tuple> TimestampExtractor<T> getTSExtractor() {
@@ -97,15 +132,6 @@ public class Utils {
                 }
 
                 return lastWM;
-            }
-        };
-    }
-
-    public static TimestampExtractor<Tuple2<Integer, Integer>> getAscendingExtractor() {
-        return new AscendingTimestampExtractor<Tuple2<Integer, Integer>>() {
-            @Override
-            public long extractAscendingTimestamp(Tuple2<Integer, Integer> element, long previousElementTimestamp) {
-                return element.f0 * 1000;
             }
         };
     }

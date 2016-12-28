@@ -19,7 +19,7 @@ public class Spark16Params extends Engine {
 
         // if time-based window, calculate t0
         if (type == 0) {
-            t0 = b - w;
+            t0 = b - w - 1;
         } // if tuple-based window, calculate i0
         else {
             // I don't know
@@ -33,10 +33,7 @@ public class Spark16Params extends Engine {
         Vector scopeValues = new Vector();
         scopeValues.add(EnumDirection.Forward);
         scopeValues.add(EnumWindowType.Single);
-        // I have to lie about my t0, because Spark 1.6.1
-        // thinks windows [start, end), while
-        // SECRET (start, end]
-        scopeValues.add(t0 - 1);
+        scopeValues.add(t0);
         ScopeParam scopeParams = new ScopeParam(scopeValues, ratio);
         params.add(scopeParams);
 
@@ -56,7 +53,7 @@ public class Spark16Params extends Engine {
         // ----------------------------------------------------
 
         Vector tickValues = new Vector();
-        tickValues.add(t0 - 1);
+        tickValues.add(t0);
         tickValues.add(EnumTick.TimeDriven);
         TickParam tickParams = new TickParam(tickValues, evalParams, ratio);
         params.add(tickParams);

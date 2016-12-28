@@ -4,3 +4,7 @@ target
 *.iml
 
 exp.current
+
+# python stuff
+*.pyc
+venv
